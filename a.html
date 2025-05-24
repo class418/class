@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <title>ホーム</title>
+  <link rel="icon" href="https://cdn.glitch.global/d7da7ad8-6b23-440c-b2cf-3c90e41bcc91/favicons%2Ffavicon.ico?v=1747807076249" id="favicon">
+  <link rel="apple-touch-icon" href="https://cdn.glitch.global/d7da7ad8-6b23-440c-b2cf-3c90e41bcc91/favicons%2Fapple-touch-icon-180x180.png?v=1747807077223" sizes="180x180">
+  <link rel="icon" type="image/png" href="https://cdn.glitch.global/d7da7ad8-6b23-440c-b2cf-3c90e41bcc91/favicons%2Fandroid-chrome-192x192.png?v=1747807076728" sizes="192x192">
+  <style>
+    html, body {
+      margin: 0; padding: 0; height: 100%;
+      background-color: white;
+      overflow: hidden;
+      font-family: sans-serif;
+      color: black;
+    }
+    #clickToPlay {
+      width: 100vw; height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      font-size: 2em;
+      user-select: none;
+      text-align: center;
+    }
+    #videoPlayer {
+      display: none;
+      width: 100vw; height: 100vh;
+      object-fit: contain;
+      background-color: black;
+    }
+  </style>
+</head>
+<body>
+
+<script>
+  function checkReferrer() {
+    const allowedDomain = "classroom-com.glitch.me";
+    const ref = document.referrer || "";
+
+    if (!ref.includes(allowedDomain)) {
+      // ページを真っ白にする
+      document.documentElement.innerHTML = '';
+      // それ以上スクリプト実行しないためにエラーを投げる
+      throw new Error("不正アクセスのため処理中断");
+    }
+  }
+
+  checkReferrer();
+</script>
+
+<div id="clickToPlay">画面をクリックして動画を再生</div>
+<video id="videoPlayer" src="https://cdn.glitch.me/d7da7ad8-6b23-440c-b2cf-3c90e41bcc91/%E7%9C%9F%E5%A4%8F%E3%81%AE%E5%A4%9C%E3%81%AE%E6%B7%AB%E5%A4%A24%E7%AB%A0%E6%9C%AC%E7%B7%A8.mp4?v=1748004635565" controls></video>
+
+<script>
+  const clickToPlay = document.getElementById('clickToPlay');
+  const video = document.getElementById('videoPlayer');
+
+  clickToPlay.addEventListener('click', () => {
+    video.style.display = 'block';
+    clickToPlay.style.display = 'none';
+    video.play().catch(() => alert('動画を再生できませんでした。'));
+  });
+</script>
+
+</body>
+</html>
