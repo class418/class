@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <title>ホーム</title>
+  <style>
+    body, html {
+      margin: 0; padding: 0;
+      height: 100%;
+      font-family: 'Arial Black', Arial, sans-serif;
+      text-align: center;
+      background-color: black;
+      color: white;
+    }
+    #clickToStart {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: black;
+      color: red;
+      font-size: 3em;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      user-select: none;
+      z-index: 10000;
+      padding: 20px;
+      box-sizing: border-box;
+      line-height: 1.3;
+
+      text-shadow:
+        0 0 10px #ff0000,
+        0 0 20px #ff0000,
+        0 0 30px #ff0000,
+        0 0 40px #ff0000;
+
+      animation: flicker 1.5s infinite, shake 0.5s infinite;
+      display: none; /* 最初は非表示 */
+    }
+
+    @keyframes flicker {
+      0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+        opacity: 1;
+      }
+      20%, 22%, 24%, 55% {
+        opacity: 0.3;
+      }
+    }
+
+    @keyframes shake {
+      0%, 100% {
+        transform: translate(0, 0);
+      }
+      25% {
+        transform: translate(-2px, 0);
+      }
+      50% {
+        transform: translate(2px, 0);
+      }
+      75% {
+        transform: translate(-2px, 0);
+      }
+    }
+
+    #okImage {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      object-fit: contain;
+      z-index: 9999;
+    }
+    #homeButton {
+      padding: 100px 200px;
+      font-size: 1.2em;
+      cursor: pointer;
+      display: none;
+      margin-top: 100px;
+    }
+  </style>
+</head>
+<body>
+
+<div id="clickToStart">画面をクリックしてください</div>
+
+<button id="homeButton">続行</button>
+
+<audio id="okSound" src="https://cdn.glitch.global/d7da7ad8-6b23-440c-b2cf-3c90e41bcc91/OP.mp3?v=1747986238406"></audio>
+<audio id="shutterSound" src="https://cdn.glitch.global/d7da7ad8-6b23-440c-b2cf-3c90e41bcc91/iPhone-Camera-Shutter-Sound-Effect.mp3?v=1747997975694"></audio>
+<img id="okImage" src="https://cdn.glitch.global/d7da7ad8-6b23-440c-b2cf-3c90e41bcc91/IMG_3228.jpeg?v=1747987606703" alt="表示画像">
+
+<script>
+  const allowedDomain = "classroom-com.glitch.me";
+  const ref = document.referrer;
+
+  console.log("Referrer:", ref);
+
+  const clickToStart = document.getElementById("clickToStart");
+  const homeButton = document.getElementById("homeButton");
+  const shutterSound = document.getElementById("shutterSound");
+
+  if (!ref || !ref.includes(allowedDomain)) {
+    // 直リンクの場合
+
+    clickToStart.style.display = "flex";
+    homeButton.style.display = "none";
+
+    clickToStart.addEventListener("click", () => {
+      shutterSound.play().then(() => {
+        alert("直リンクは絶対に許可されていません！！");
+        clickToStart.textContent = "直リンクは絶対に許可されていません！！！";
+        clickToStart.style.cursor = "default";
+      }).catch(() => {
+        alert("音声が再生できませんでした。");
+        clickToStart.textContent = "直リンクは絶対に許可されていません！！";
+      });
+    }, { once: true });
+
+  } else {
+    // 正常アクセス時
+    clickToStart.style.display = "none";
+    homeButton.style.display = "inline-block";
+
+    homeButton.addEventListener('click', () => {
+      const input = prompt("パスワードを入力してください");
+      if (input === "club") {
+        const img = document.getElementById('okImage');
+        const okSound = document.getElementById('okSound');
+        img.style.display = 'block';
+        okSound.play().catch(() => {
+          alert("音声が再生できませんでした。");
+        });
+      } else {
+        alert("パスワードが違います。");
+        location.reload();
+      }
+    });
+  }
+</script>
+
+</body>
+</html>
