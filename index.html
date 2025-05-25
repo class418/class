@@ -44,7 +44,7 @@
   </style>
 
   <script>
-    // 810のパスワードをページ読み込み時にだけ聞く
+    // パスワードをページ読み込み時にだけ聞く
     window.addEventListener('load', function () {
       const password = prompt("パスワードを入力してください：");
       if (password === "yaju") {
@@ -90,6 +90,8 @@
         location.href = "/a.html";
       } else if (password === "karate") {
         location.href = "/b.html";
+      } else if (password === "810") {
+        location.herf = "/c.html";
       } else {
         document.getElementById('lockScreen').style.display = 'block';
         const sound = document.getElementById('errorSound');
